@@ -1,41 +1,131 @@
 <template>
   <div class="hello">
-    <input v-model="command" type="text" />
+    <div v-if="!generated">
+      <input v-model="command" type="text" />
 
-    <input v-model="width" type="text" class="width" />
+      <input v-model="width" type="number" class="width" />
+      <input v-model="height" type="number" class="width" />
 
-    <div class="terminal" :style="{ 'width': width }">
-      <div class="header">
-        <div class="circles">
-          <div class="red"></div>
-          <div class="yellow"></div>
-          <div class="green"></div>
+      <div class="terminal" :style="{ 'width': width + 'px' }">
+        <div class="header">
+          <div class="circles">
+            <div class="red"></div>
+            <div class="yellow"></div>
+            <div class="green"></div>
+          </div>
         </div>
-      </div>
-      <div class="content" :class="{ 'dark': dark, 'light': ligth }">
-        {{ command }}
+        <div class="content" :style="{ 'height': height + 'px' }" :class="{ 'dark': dark, 'light': light }">
+          {{ command }}
+        </div>
       </div>
     </div>
 
-    <a href="#">Download image</a>
+    <div v-if="generating">working...</div>
+
+    <div :class="{ hidden: !generated }">
+      <canvas ref="tutorial" id="tutorial">
+        Your browser does not support the HTML5 canvas tag.
+      </canvas>
+      <br>
+    </div>
+
+    <button v-if="!generated" @click="drawnCanvas">Generate image</button>
+    <button v-else @click="goBack">Back</button>
   </div>
 </template>
 
 <script>
+import { _roundedRect, _circle } from "./canvasHelper";
+
+const _headerBarHeigth = 35;
+const _canvasPad = 10;
+
 export default {
   name: "HelloWorld",
   data() {
     return {
       command: "npm instal --save axios",
-      width: "400px",
+      width: 400,
+      height: 300,
       dark: true,
-      light: false
+      light: false,
+      generating: false,
+      generated: false
     };
-  }
+  },
+  computed: {
+    computedHeight: function() {
+      return Number(this.height) + _canvasPad + _headerBarHeigth;
+    },
+    computedWidth: function() {
+      return Number(this.width) + _canvasPad;
+    }
+  },
+  methods: {
+    drawnCanvas() {
+      this.generating = true;
+      console.log("generating", this.generating);
+      var canvas = this.$refs.tutorial;
+
+      if (canvas.getContext) {
+        canvas.width = this.computedWidth;
+        canvas.height = this.computedHeight;
+
+        const ctx = canvas.getContext("2d");
+
+        // the header bar
+        _roundedRect(
+          ctx,
+          10,
+          10,
+          this.width - _canvasPad * 2,
+          _headerBarHeigth,
+          8,
+          8,
+          8,
+          0,
+          0,
+          "#efefef"
+        );
+
+        //red circle
+        _circle(ctx, "#EF665D", 15, 17, 7, 0, Math.PI * 2, true, _canvasPad);
+
+        //yellow circle
+        _circle(ctx, "#F5BF4C", 35, 17, 7, 0, Math.PI * 2, true, _canvasPad);
+
+        //green circle
+        _circle(ctx, "#94C767", 55, 17, 7, 0, Math.PI * 2, true, _canvasPad);
+
+        // the content
+        ctx.fillStyle = "#333";
+        ctx.fillRect(
+          _canvasPad,
+          _headerBarHeigth + _canvasPad,
+          this.width - _canvasPad * 2,
+          this.height - _canvasPad
+        );
+
+        ctx.fillStyle = "#efefef";
+        ctx.font = "20px cursive";
+        ctx.fillText(
+          this.command,
+          _canvasPad + 10,
+          _canvasPad + _headerBarHeigth + 30
+        );
+      }
+
+      this.generating = false;
+      this.generated = true;
+    },
+    goBack() {
+      this.generated = false;
+    }
+  },
+  mounted() {}
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .terminal {
   margin: 30px auto;
@@ -60,25 +150,21 @@ export default {
     #e7e7e7 0%,
     #b8b8b8 100%
   ); /* Chrome10-25,Safari5.1-6 */
-
   background: linear-gradient(
     to bottom,
     #e7e7e7 0%,
     #b8b8b8 100%
   ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-
   filter: progid:DXImageTransform.Microsoft.gradient(
       startColorstr="#e7e7e7",
       endColorstr="#b8b8b8",
       GradientType=0
     ); /* IE6-9 */
 }
-
 .circles {
   float: left;
   margin: 7px;
 }
-
 .circles div {
   float: left;
   width: 10px;
@@ -86,22 +172,18 @@ export default {
   border-radius: 50%;
   margin-right: 5px;
 }
-
 .circles div.red {
   border: solid #ef665d;
   background: #ef665d;
 }
-
 .circles div.yellow {
   border: solid #f5bf4c;
   background: #f5bf4c;
 }
-
 .circles div.green {
   border: solid #94c767;
   background: #94c767;
 }
-
 .content {
   border-bottom-right-radius: 6px;
   border-bottom-left-radius: 6px;
@@ -113,15 +195,12 @@ export default {
   color: #ccc;
   text-align: left;
 }
-
 .content.dark {
   background: #333;
 }
-
 .content.ligth {
   background: #f8f8f8;
 }
-
 input {
   width: 300px;
   border-radius: 6px;
@@ -131,13 +210,22 @@ input {
   background: rgba(255, 255, 255, 0.5);
   margin: 10px;
   text-align: center;
-
   -webkit-box-shadow: 0px 0px 20px 2px rgba(255, 255, 255, 1);
   -moz-box-shadow: 0px 0px 20px 2px rgba(255, 255, 255, 1);
   box-shadow: 0px 0px 20px 2px rgba(255, 255, 255, 1);
 }
-
 input.width {
   width: 100px;
+  outline: none;
+}
+button {
+  border: solid 1px #2c3e50;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 15px 25px;
+  cursor: pointer;
+  outline: none;
+}
+.hidden {
+  display: none;
 }
 </style>
