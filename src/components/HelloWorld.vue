@@ -21,6 +21,7 @@
 
     <div v-if="generating">working...</div>
 
+    <h3 style="color: #fff" v-if="generated">Right click in the image bellow and "Save image as..."</h3>
     <div :class="{ hidden: !generated }">
       <canvas ref="tutorial" id="tutorial">
         Your browser does not support the HTML5 canvas tag.
