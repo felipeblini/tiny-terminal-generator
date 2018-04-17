@@ -1,9 +1,8 @@
 <template>
   <div class="hello">
     <div v-if="!generated">
-      <input v-model="command" type="text" />
-
-      <input v-model="width" type="number" class="width" />
+      <h4>Window sixe in pixels</h4>
+      <input v-model="width" type="number" class="width" /> x
       <input v-model="height" type="number" class="width" />
 
       <div class="terminal" :style="{ 'width': width + 'px' }">
@@ -15,7 +14,7 @@
           </div>
         </div>
         <div class="content" :style="{ 'height': height + 'px' }" :class="{ 'dark': dark, 'light': light }">
-          {{ command }}
+          <textarea ref="textarea" rows="4" :style="{ 'height': height - 10 + 'px', 'width': width - 40 + 'px' }" v-model="command"></textarea>
         </div>
       </div>
     </div>
@@ -46,7 +45,7 @@ export default {
     return {
       command: "npm instal --save axios",
       width: 400,
-      height: 300,
+      height: 200,
       dark: true,
       light: false,
       generating: false,
@@ -98,12 +97,18 @@ export default {
         _circle(ctx, "#94C767", 55, 17, 7, 0, Math.PI * 2, true, _canvasPad);
 
         // the content
-        ctx.fillStyle = "#333";
-        ctx.fillRect(
-          _canvasPad,
-          _headerBarHeigth + _canvasPad,
+        _roundedRect(
+          ctx,
+          10,
+          _headerBarHeigth,
           this.width - _canvasPad * 2,
-          this.height - _canvasPad
+          this.height - _canvasPad,
+          8,
+          0,
+          0,
+          8,
+          8,
+          "#333"
         );
 
         ctx.fillStyle = "#efefef";
@@ -122,7 +127,9 @@ export default {
       this.generated = false;
     }
   },
-  mounted() {}
+  mounted() {
+    this.$refs.textarea.focus();
+  }
 };
 </script>
 
@@ -217,6 +224,16 @@ input {
 input.width {
   width: 100px;
   outline: none;
+}
+textarea {
+  background: transparent;
+  border: none;
+  color: #efefef;
+  outline: none;
+  appearance: none;
+  resize: none;
+  font-family: cursive;
+  font-size: 18px;
 }
 button {
   border: solid 1px #2c3e50;

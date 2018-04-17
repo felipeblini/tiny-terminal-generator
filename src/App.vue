@@ -1,8 +1,12 @@
 <template>
   <div id="app">
-    <img src="./assets/Mac-Terminal-icon.png">
-    <span class="logo">Tiny Terminal</span>
-    <a class="github" href="https://github.com/felipeblini/terminal-generator">Terminal command generator</a>
+    <div class="page-header">
+      <div class="logo">
+        <img src="./assets/Mac-Terminal-icon.png">
+        <span class="logo">Tiny Terminal</span>
+      </div>
+      <a class="github" href="https://github.com/felipeblini/terminal-generator">Terminal command generator</a>
+    </div>
     <h1>Terminal/Prompt Command Image Generator</h1>
     <router-view/>
   </div>
@@ -23,45 +27,79 @@ export default {
   color: #2c3e50;
 }
 
+.page-header {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+}
+
+@media (min-width: 580px) {
+  .page-header {
+    height: 80px;
+  }
+}
+
+div.logo {
+  display: flex;
+  flex-grow: 1;
+}
+
 img {
-  width: 80px;
-  height: 80px;
-  float: left;
-  margin-right: 10px;
+  width: 55px;
+  height: 55px;
+  margin: 0 10px 0 3px;
+}
+
+@media (min-width: 580px) {
+  img {
+    width: 80px;
+    height: 80px;
+  }
 }
 
 span.logo {
-  display: block;
-  height: 80px;
+  height: 60px;
   color: #efefef;
   font-weight: bolder;
-  font-size: 53px;
+  font-size: 26px;
   font-family: "Anton", sans-serif;
-  text-align: left;
+  position: relative;
+  top: 8px;
+}
+
+@media (min-width: 580px) {
+  span.logo {
+    position: initial;
+    top: initial;
+    height: 80px;
+    font-size: 53px;
+  }
 }
 
 a.github {
-  display: block;
   text-indent: -9999px;
   outline: none;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 80px;
-  height: 80px;
+  width: 56px;
+  height: 56px;
   background: url("./assets/if_github_394189.png") center center no-repeat;
-  background-size: 60px;
+  background-size: 40px;
+  align-self: right;
+}
+
+@media (min-width: 580px) {
+  a.github {
+    width: 80px;
+    height: 80px;
+    background-size: 60px;
+  }
 }
 
 h1 {
   font-family: "Anton", sans-serif;
-  margin-top: 60px;
 }
-</style>
 
-
-<style>
-html {
+body {
+  margin-bottom: 50px;
   height: 100%;
   -webkit-background-size: cover;
   -moz-background-size: cover;

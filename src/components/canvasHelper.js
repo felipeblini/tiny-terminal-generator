@@ -25,9 +25,9 @@ export const _roundedRect = function (
     radiusBottomRight
   );
   ctx.lineTo(x + width, y + radius);
-  ctx.arcTo(x + width, y, x + width - radius, y, radius);
+  ctx.arcTo(x + width, y, x + width - radius, y, radiusTopLeft);
   ctx.lineTo(x + radius, y);
-  ctx.arcTo(x, y, x, y + radius, radius);
+  ctx.arcTo(x, y, x, y + radius, radiusTopRight);
   ctx.fill();
 };
 
