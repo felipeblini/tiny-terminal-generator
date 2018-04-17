@@ -36,7 +36,7 @@
 <script>
 import { _roundedRect, _circle } from "./canvasHelper";
 
-const _headerBarHeigth = 35;
+const _headerBarHeigth = 25;
 const _canvasPad = 10;
 
 export default {
@@ -44,7 +44,7 @@ export default {
   data() {
     return {
       command: "npm instal --save axios",
-      width: 400,
+      width: Math.round(window.innerWidth * 60 / 100),
       height: 200,
       dark: true,
       light: false,
@@ -73,6 +73,10 @@ export default {
         const ctx = canvas.getContext("2d");
 
         // the header bar
+        let lingrad = ctx.createLinearGradient(0, 10, 0, 150);
+        lingrad.addColorStop(0, "#E6E6E6");
+        lingrad.addColorStop(0.3, "#BCBCBC");
+
         _roundedRect(
           ctx,
           10,
@@ -84,23 +88,23 @@ export default {
           8,
           0,
           0,
-          "#efefef"
+          lingrad
         );
 
         //red circle
-        _circle(ctx, "#EF665D", 15, 17, 7, 0, Math.PI * 2, true, _canvasPad);
+        _circle(ctx, "#EF665D", 15, 13, 7, 0, Math.PI * 2, true, _canvasPad);
 
         //yellow circle
-        _circle(ctx, "#F5BF4C", 35, 17, 7, 0, Math.PI * 2, true, _canvasPad);
+        _circle(ctx, "#F5BF4C", 35, 13, 7, 0, Math.PI * 2, true, _canvasPad);
 
         //green circle
-        _circle(ctx, "#94C767", 55, 17, 7, 0, Math.PI * 2, true, _canvasPad);
+        _circle(ctx, "#94C767", 55, 13, 7, 0, Math.PI * 2, true, _canvasPad);
 
         // the content
         _roundedRect(
           ctx,
-          10,
-          _headerBarHeigth,
+          _canvasPad,
+          _headerBarHeigth + _canvasPad,
           this.width - _canvasPad * 2,
           this.height - _canvasPad,
           8,

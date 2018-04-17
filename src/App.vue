@@ -98,7 +98,12 @@ h1 {
   font-family: "Anton", sans-serif;
 }
 
+html {
+  background: #a1799c;
+}
+
 body {
+  margin: 0;
   margin-bottom: 50px;
   height: 100%;
   -webkit-background-size: cover;
