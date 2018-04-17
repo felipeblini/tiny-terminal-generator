@@ -212,14 +212,13 @@ input {
   width: 300px;
   border-radius: 6px;
   border: 3px solid rgba(255, 255, 255, 0.5);
-  border: 3px solid rgba(0, 0, 0, 0.5);
   padding: 10px;
   background: rgba(255, 255, 255, 0.5);
   margin: 10px;
   text-align: center;
-  -webkit-box-shadow: 0px 0px 20px 2px rgba(255, 255, 255, 1);
-  -moz-box-shadow: 0px 0px 20px 2px rgba(255, 255, 255, 1);
-  box-shadow: 0px 0px 20px 2px rgba(255, 255, 255, 1);
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 1);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 1);
+  box-shadow: 0px 0px 10px 1px rgba(255, 255, 255, 1);
 }
 input.width {
   width: 100px;
@@ -244,5 +243,8 @@ button {
 }
 .hidden {
   display: none;
+}
+h4 {
+  margin-bottom: 5px;
 }
 </style>
